@@ -48,14 +48,18 @@ export default{
     },
     async sendFile(){
       try {
-        const formData = new FormData()
-        formData.append('file', this.file)
-        await axios.post('/api/upload', formData).then(result => {
-          this.message = result.data.message
-          this.file = ''
-          this.error = result.data.error
-          console.log(result.data.error)
-        })
+        if(this.file){
+          const formData = new FormData()
+          formData.append('file', this.file)
+          await axios.post('/api/upload', formData).then(result => {
+            this.message = result.data.message
+            this.file = ''
+            this.error = result.data.error
+            console.log(result.data.error)
+          })
+        } else {
+          this.error = 'Please choose an image!'
+        }
       } catch (error) {
         console.error(error)
       }

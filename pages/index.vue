@@ -1,14 +1,22 @@
 <template>
  <div class="section">
   <div class="container">
-    <upload />
+    <div class="columns">
+      <div class="column">
+        <upload />
+      </div>
+      <div class="column">
+        <multi />
+      </div>
+    </div>
+    <dropzone />
   </div>
  </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage',
+  name: 'Index',
   data () {
     return {
 

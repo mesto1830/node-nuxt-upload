@@ -1,0 +1,11 @@
+{
+  "Dropzone": {
+    "description": "Auto imported from components/dropzone.vue"
+  },
+  "Multi": {
+    "description": "Auto imported from components/multi.vue"
+  },
+  "Upload": {
+    "description": "Auto imported from components/upload.vue"
+  }
+}
