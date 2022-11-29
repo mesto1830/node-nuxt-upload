@@ -1,6 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="sendFile" enctype="multipart/form-data">
+      <h3>Upload Single File</h3>
       <span v-if="message" class="success">{{message}}</span>
       <span v-if="error" class="danger">{{error}}</span>
       <div class="field">

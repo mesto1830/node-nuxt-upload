@@ -5,11 +5,8 @@
       <div class="column">
         <upload />
       </div>
-      <div class="column">
-        <multi />
-      </div>
     </div>
-    <dropzone />
+    <uploadmulti />
   </div>
  </div>
 </template>

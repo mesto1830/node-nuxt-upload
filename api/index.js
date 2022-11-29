@@ -3,8 +3,6 @@ const app = express()
 import cors from 'cors'
 import helmet from 'helmet'
 import multer from 'multer'
-import sharp from 'sharp'
-import fs from 'fs'
 
 app.use(cors())
 app.use(helmet())
@@ -38,7 +36,7 @@ const upload = multer({
     fileSize: max_size
   }
 })
-const pureUpload = multer({
+const uploadMulti = multer({
   storage,
   // fileFilter,
   // limits:{
@@ -51,21 +49,8 @@ app.post('/upload', upload.single('file'), (req, res, ) => {
   res.status(200).json({message:'File uploaded'})
 })
 
-app.post('/dropzone', pureUpload.single('file'), async (req, res, ) => {
-  try {
-    //resize and move to resized folder
-    await sharp(req.file.path)
-    .resize(300)
-    .toFile('./static/resized/' + req.file.originalname)
-
-    //delete original file
-    fs.unlink(req.file.path, () => {
-      res.status(200).json({file:req.file.originalname})
-    })
-  } catch (error) {
-    console.log(error)
-  }
-  
+app.post('/uploadmulti', uploadMulti.array('files', 2), async (req, res, ) => {
+  res.status(200).json({result:req.files})
 })
 
 app.use((error, req, res, next) => {

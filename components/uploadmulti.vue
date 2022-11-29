@@ -1,6 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="sendFile" enctype="multipart/form-data">
+      <h3>Upload Multiple File</h3>
       <span v-if="message" class="success">{{message}}</span>
       <span v-if="error" class="danger">{{error}}</span>
       <div class="dropzone">
@@ -14,7 +15,7 @@
 
       <div class="content">
         <ul>
-          <li v-for="file in uploadedFile" :key="file.originalname">
+          <li v-for="file in uploadedFile[0]" :key="file.originalname">
             {{file.originalname}}
           </li>
         </ul>
@@ -42,15 +43,24 @@ export default{
   methods:{
     async sendFile(){
       const formData = new FormData()
-      formData.append('file', this.$refs.file.files[0])
-
+      const files = this.$refs.file.files
       try {
-        this.uploading = true
-        const res = await axios.post('/api/dropzone', formData, {
-          onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total)
-        })
-        this.uploadedFile.push(res.data.file)
-        this.uploading = false
+        if(files.length > 2){
+          this.error = 'File length must be less 3'
+        } else {
+          this.error = ''
+          for (const item of files) {
+            formData.append('files', item)
+          }
+          this.uploading = true
+          const res = await axios.post('/api/uploadmulti', formData, {
+            onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total)
+          })
+  
+          this.uploadedFile.push(res.data.files)
+          this.uploading = false
+        }
+
       } catch (error) {
         console.error(error)
         this.uploading = false
@@ -91,5 +101,8 @@ export default{
   }
   .progress{
     margin: 5px auto;
+  }
+  ul{
+    list-style: none;
   }
 </style>
